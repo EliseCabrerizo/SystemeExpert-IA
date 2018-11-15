@@ -58,7 +58,7 @@ public class Effecteur {
 	}
 
 	public void tuerMonstre(int i, int j, Environnement environnement) {
-		environnement.disparitionMontre(i, j);
+//		environnement.disparitionMontre(i, j);
 	}
 
 }

@@ -1,3 +1,4 @@
+package System;
 public class ThreadAgentTartiflette extends Thread {
 	public ThreadAgentTartiflette() {
 	}

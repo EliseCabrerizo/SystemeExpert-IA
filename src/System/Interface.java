@@ -1,3 +1,4 @@
+package System;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -7,6 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
+
 import AgentTartiflette.AgentTartiflette;
 import Environnement.Environnement;
 
