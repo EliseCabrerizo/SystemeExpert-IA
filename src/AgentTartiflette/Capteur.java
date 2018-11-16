@@ -1,25 +1,20 @@
 package AgentTartiflette;
 
-
-
 import Environnement.Environnement;
-
-
 
 public class Capteur {
 
 	private String caracteristiqueCase;
 
-
-
 	public Capteur() {
-
 		this.caracteristiqueCase = null;
-
 	}
-
-
-
+/**
+ * Sauvegarde dans l'attribut caracteristiqueCase la caractérisitque de la case x, y
+ * @param environnement
+ * @param x
+ * @param y
+ */
 	public void capterCaseTartiflette(Environnement environnement, int x, int y) {
 
 		String caracteristiqueCase = environnement.getCase(x, y).getCaracteristique();
@@ -38,8 +33,6 @@ public class Capteur {
 
 	}
 
-
-
 	@Override
 
 	public int hashCode() {
@@ -53,8 +46,6 @@ public class Capteur {
 		return result;
 
 	}
-
-
 
 	@Override
 
@@ -88,12 +79,8 @@ public class Capteur {
 
 	}
 
-
-
 	public String getCaracteristiqueCase() {
-
 		return caracteristiqueCase;
-
 	}
 
 }

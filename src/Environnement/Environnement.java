@@ -1,6 +1,6 @@
 package Environnement;
 
-
+import AgentTartiflette.AgentTartiflette;
 
 public class Environnement {
 
@@ -377,6 +377,11 @@ public class Environnement {
 	public void disparitionMontre(int i, int j) {
 		Case[i][j].setMonstreGayPride(false);
 	}
-m_moum
+
+	public boolean estDangereux(AgentTartiflette agentTartiflette) {
+		return Case[agentTartiflette.getPosX()][agentTartiflette.getPosY()].getMonstreGayPride()
+				|| Case[agentTartiflette.getPosX()][agentTartiflette.getPosY()].getCrevasse();
+
+	}
 
 }
