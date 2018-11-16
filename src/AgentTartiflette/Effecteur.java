@@ -35,10 +35,10 @@ public class Effecteur {
 	}
 
 	/**
-	 * Fonction qui execute la prochaine action action dans le
+	 * Fonction qui execute la prochaine action présente dans Actions
 	 * 
 	 * @param agentTartiflette
-	 * @return
+	 * @return Vrai ou faux si l'agent a pris le portail ou non
 	 */
 	public boolean ExecuterActionSuivante(AgentTartiflette agentTartiflette) {
 		boolean estSorti = false;
@@ -68,6 +68,7 @@ public class Effecteur {
 			// Tuer le monstre qui est eventuellement dans une case adjacente en (posX,
 			// posX+1), (posX, posX-1), (posX+1, posX), (posX-1, posX)
 			Interface.environnement.disparitionMontre(new Integer(action[1]), new Integer(action[2]));
+//			agentTartiflette.disparitionMonstreDesFaits(new Integer(action[1]), new Integer(action[2]));
 		} else if (action[0].equals("Sortir")) {
 			System.out.println(action[0]);
 			// Augementer la performance
@@ -118,6 +119,11 @@ public class Effecteur {
 
 	public void tuerMonstre(int i, int j, Environnement environnement) {
 		environnement.disparitionMontre(i, j);
+	}
+
+	@Override
+	public String toString() {
+		return "Effecteur [Actions=" + Actions + "]";
 	}
 
 }

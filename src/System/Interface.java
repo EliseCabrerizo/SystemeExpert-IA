@@ -19,7 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import AgentTartiflette.AgentTartiflette;
-
+import AgentTartiflette.Effecteur;
 import Environnement.Environnement;
 
 public class Interface extends JComponent {
@@ -142,9 +142,7 @@ public class Interface extends JComponent {
 	}
 
 	public Dimension getMinimumSize() {
-
 		return getPreferredSize();
-
 	}
 
 	public static void main(String args[]) {
@@ -152,6 +150,11 @@ public class Interface extends JComponent {
 		int nombreCase = 10;
 		boolean estMort = false;
 		Interface.agentTartiflette = new AgentTartiflette();
+		Effecteur effecteur = new Effecteur();
+		for (int i = 0; i < nombreCase; i++) {
+			effecteur.addAction("Droite");
+		}
+		Interface.agentTartiflette.setEffecteur(effecteur);
 		Interface.environnement = new Environnement(nombreCase);
 
 		ThreadAffichage threadAffichage = new ThreadAffichage();
@@ -159,10 +162,12 @@ public class Interface extends JComponent {
 
 		while (true) {
 			estMort = Interface.agentTartiflette.Boucle();
-
+			
+			// La position de l'agent est reinitialise à (0, 0)
+			Interface.agentTartiflette.setPosX(0);
+			Interface.agentTartiflette.setPosY(0);
+			
 			if (estMort) {
-				Interface.agentTartiflette.setPosX(0);
-				Interface.agentTartiflette.setPosY(0);
 				Interface.agentTartiflette.getPerformance().add(-10 * (nombreCase) ^ 2);
 				estMort = false;
 			}
@@ -170,13 +175,15 @@ public class Interface extends JComponent {
 			else {
 				nombreCase++;
 				Interface.environnement = new Environnement(nombreCase);
-				Interface.agentTartiflette.setPosX(0);
-				Interface.agentTartiflette.setPosY(0);
-//				Interface.agentTartiflette.ResetFait();
+				// Les faits/croyances sont supprimes
+				Interface.agentTartiflette.suppressionFait();
 			}
-
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-
 	}
 
 }

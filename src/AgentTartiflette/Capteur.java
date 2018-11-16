@@ -82,5 +82,9 @@ public class Capteur {
 	public String getCaracteristiqueCase() {
 		return caracteristiqueCase;
 	}
+	@Override
+	public String toString() {
+		return "Capteur [caracteristiqueCase=" + caracteristiqueCase + "]";
+	}
 
 }

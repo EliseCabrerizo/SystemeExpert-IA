@@ -374,14 +374,32 @@ public class Environnement {
 
 	}
 
-	public void disparitionMontre(int i, int j) {
-		Case[i][j].setMonstreGayPride(false);
+	public void disparitionMontre(int x, int y) {
+		Case[x][y].setMonstreGayPride(false);
+		if (monstreACoteDuCaca(x, y)) {
+			Case[x][y].setCacaLicorne(false);
+		}
 	}
 
+	/**
+	 * @param x
+	 * @param y
+	 * @return Vrai si il reste encore un monstre � cote d'un caca
+	 */
+	public boolean monstreACoteDuCaca(int x, int y) {
+		return Case[x + 1][y].getMonstreGayPride() || Case[x - 1][y].getMonstreGayPride()
+				|| Case[x][y + 1].getMonstreGayPride() || Case[x][y - 1].getMonstreGayPride();
+	}
+	
+
+	/**
+	 * 
+	 * @param agentTartiflette
+	 * @return Vrai si l'agent est sur une case se situe sur une crevasse ou sur un monstre
+	 */
 	public boolean estDangereux(AgentTartiflette agentTartiflette) {
 		return Case[agentTartiflette.getPosX()][agentTartiflette.getPosY()].getMonstreGayPride()
 				|| Case[agentTartiflette.getPosX()][agentTartiflette.getPosY()].getCrevasse();
-
 	}
 
 }
