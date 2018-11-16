@@ -190,4 +190,9 @@ public class Environnement {
 		}
 	}
 
+	public void disparitionMontre(int i, int j) {
+		Case[i][j].setMonstreGayPride(false);
+	}
+m_moum
+
 }

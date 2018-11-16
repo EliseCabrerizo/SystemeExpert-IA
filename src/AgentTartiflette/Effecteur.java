@@ -12,10 +12,10 @@ public class Effecteur {
 
 	public void addAction(String action) {
 		if (action.equals("Gauche") || action.equals("Droite") || action.equals("Haut") || action.equals("Bas")
-				|| action.equals("Tirer") || action.equals("Sortir"))
+				|| action.split(" ")[0].equals("Tirer") || action.equals("Sortir"))
 			Actions.add(action);
 		else
-			System.err.println("L'action n'est pas égale à 'Gauche', 'Droite', 'Haut', 'Bas', 'Tirer', ou à 'Sortir'.");
+			System.err.println("L'action n'est pas égale à 'Gauche', 'Droite', 'Haut', 'Bas', 'Tirer abscisse ordonnée', ou à 'Sortir'.");
 	}
 
 	public String actionSuivante() {
@@ -58,7 +58,7 @@ public class Effecteur {
 	}
 
 	public void tuerMonstre(int i, int j, Environnement environnement) {
-//		environnement.disparitionMontre(i, j);
+		environnement.disparitionMontre(i, j);
 	}
 
 }

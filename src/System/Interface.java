@@ -1,4 +1,5 @@
 package System;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -106,29 +107,26 @@ public class Interface extends JComponent {
 		Interface.environnement = new Environnement(nombreCase);
 		ThreadAffichage threadAffichage = new ThreadAffichage();
 		threadAffichage.start();
-		// while(true)
-		// {
-		// //S'il est pas mort on fait une nouvelle grille
-		// if(!estMort)
-		// {
-		// Interface.environnement = new Environnement(nombreCase);
-		// threadAffichage = new ThreadAffichage();
-		// threadAffichage.start();
-		// }
-		// //S'il est mort on va utiliser la même grille mais recommencer
-		// else if(estMort)
-		// {
-		// threadAffichage.start();
-		// }
-		// //S'il arrive à sortir on va augmenter le nombre de case
-		// if(estSorti)
-		// {
-		// nombreCase++;
-		// }
-		// }
-		// Interface.agentTartiflette = new AgentTartiflette(Interface.environnement);
-		// ThreadAgentTartiflette threadAgentTartiflette = new ThreadAgentTartiflette();
-		// threadAgentTartiflette.start();
+		
+		while (true) {
+			// S'il est pas mort on fait une nouvelle grille
+			if (!estMort) {
+				Interface.environnement = new Environnement(nombreCase);
+				threadAffichage = new ThreadAffichage();
+				threadAffichage.start();
+			}
+			// S'il est mort on va utiliser la même grille mais recommencer
+			else if (estMort) {
+				threadAffichage.start();
+			}
+			// S'il arrive à sortir on va augmenter le nombre de case
+			if (estSorti) {
+				nombreCase++;
+			}
+		}
+		Interface.agentTartiflette = new AgentTartiflette(Interface.environnement);
+		ThreadAgentTartiflette threadAgentTartiflette = new ThreadAgentTartiflette();
+		threadAgentTartiflette.start();
 	}
 
 }

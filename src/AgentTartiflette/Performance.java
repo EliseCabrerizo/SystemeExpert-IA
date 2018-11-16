@@ -10,7 +10,14 @@ public class Performance {
 
 	public void add(int n) {
 		this.performance += n;
-		
+	}
+
+	public Integer getPerformance() {
+		return performance;
+	}
+
+	public void setPerformance(Integer performance) {
+		this.performance = performance;
 	}
 
 }
