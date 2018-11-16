@@ -22,7 +22,7 @@ public class Performance {
 
 	@Override
 	public String toString() {
-		return "Performance [performance=" + performance + "]";
+		return "Performance [performance = " + performance + "]";
 	}
 
 }

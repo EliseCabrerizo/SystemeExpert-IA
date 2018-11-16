@@ -63,12 +63,13 @@ public class Effecteur {
 			agentTartiflette.movePosY(1);// Deplacement
 			agentTartiflette.getPerformance().add(-1);// Performance -1
 		} else if (action[0].equals("Tirer")) {
-			System.out.println(action);
+			System.out.println(action[0] + " " + action[1] + " " + action[2]);
 			agentTartiflette.getPerformance().add(-10); // Performance -10
 			// Tuer le monstre qui est eventuellement dans une case adjacente en (posX,
 			// posX+1), (posX, posX-1), (posX+1, posX), (posX-1, posX)
 			Interface.environnement.disparitionMontre(new Integer(action[1]), new Integer(action[2]));
-//			agentTartiflette.disparitionMonstreDesFaits(new Integer(action[1]), new Integer(action[2]));
+			// agentTartiflette.disparitionMonstreDesFaits(new Integer(action[1]), new
+			// Integer(action[2]));
 		} else if (action[0].equals("Sortir")) {
 			System.out.println(action[0]);
 			// Augementer la performance

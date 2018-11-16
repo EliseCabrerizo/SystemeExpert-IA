@@ -71,7 +71,8 @@ public class AgentTartiflette {
 	}
 
 	/**
-	 * L'agent parcours la carte en fonction de ses regles jusqu'à sa mort ou la sortie
+	 * L'agent parcours la carte en fonction de ses regles jusqu'à sa mort ou la
+	 * sortie
 	 * 
 	 * @return Vrai l'agent meurt et Faux si il est sorti
 	 */
@@ -87,8 +88,11 @@ public class AgentTartiflette {
 			// Regarder environnement avec capteur
 			capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
 			System.out.println("Fait = " + capteur.getCaracteristiqueCase());
-			// AjouterFait et demander regle
-			tabFait.add(new Fait(posX, posY, capteur.getCaracteristiqueCase()));
+			// Ajouter une fait
+			Fait fait = new Fait(posX, posY, capteur.getCaracteristiqueCase());
+			if (!tabFait.contains(fait))
+				tabFait.add(fait);
+			// Demander regle pour ajouter une action
 
 			// Executer l'action suivante
 			estSorti = effecteur.ExecuterActionSuivante(this);
@@ -106,7 +110,8 @@ public class AgentTartiflette {
 				e.printStackTrace();
 			}
 		}
-		if(estMort && estSorti)System.err.println("Erreur : Il est a la fois sorti et mort.");
+		if (estMort && estSorti)
+			System.err.println("Erreur : Il est a la fois sorti et mort.");
 		if (estMort)
 			return true;
 		// Cela veut dire que c'est estSorti qui est true
@@ -120,8 +125,9 @@ public class AgentTartiflette {
 
 	@Override
 	public String toString() {
-		return "AgentTartiflette = [\nposX = " + posX + ", posY = " + posY + ", performance = " + performance + ", \ncapteur=" + capteur
-				+ ", \neffecteur = " + effecteur + ", \ntabFait = " + tabFait.toString() + "]";
+		return "AgentTartiflette = [\nposX = " + posX + ", posY = " + posY + ", performance = " + performance
+				+ ", \ncapteur=" + capteur + ", \neffecteur = " + effecteur + ", \ntabFait = " + tabFait.toString()
+				+ "]";
 	}
 
 }
