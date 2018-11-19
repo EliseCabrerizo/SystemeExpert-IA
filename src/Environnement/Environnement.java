@@ -374,28 +374,83 @@ public class Environnement {
 
 	}
 
+	/**
+	 * Supprime le monstre situe en x y et les cacas qui l'entourent a moins qu'ils
+	 * ne soient a cote d'un autre monstre
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public void disparitionMontre(int x, int y) {
 		Case[x][y].setMonstreGayPride(false);
-		if (monstreACoteDuCaca(x, y)) {
-			Case[x][y].setCacaLicorne(false);
+		int x1 = x;
+		int y1 = y;
+
+		x1 = x - 1;
+		if (-1 < x1 && x1 < taille) {
+			if (monstreACoteDuCaca(x1, y))
+				Case[x + 1][y].setCacaLicorne(false);
+		}
+
+		x1 = x + 1;
+		if (-1 < x1 && x1 < taille) {
+			if (monstreACoteDuCaca(x1, y))
+				Case[x1][y].setCacaLicorne(false);
+		}
+
+		y1 = y + 1;
+		if (-1 < y1 && y1 < taille) {
+			if (monstreACoteDuCaca(x, y1))
+				Case[x][y1].setCacaLicorne(false);
+		}
+
+		y1 = y - 1;
+		if (-1 < y1 && y1 < taille) {
+			if (monstreACoteDuCaca(x, y1)) {
+				Case[x][y1].setCacaLicorne(false);
+			}
 		}
 	}
 
 	/**
 	 * @param x
+	 *            abscisse du caca
 	 * @param y
-	 * @return Vrai si il reste encore un monstre � cote d'un caca
+	 *            ordonnee du caca
+	 * @return Vrai si il reste encore un monstre � cote d'un caca en x, y
 	 */
 	public boolean monstreACoteDuCaca(int x, int y) {
-		return Case[x + 1][y].getMonstreGayPride() || Case[x - 1][y].getMonstreGayPride()
-				|| Case[x][y + 1].getMonstreGayPride() || Case[x][y - 1].getMonstreGayPride();
+		boolean resultat = false;
+		int x1 = x;
+		int y1 = y;
+
+		x1 = x - 1;
+		if (-1 < x1 && x1 < taille) {
+			resultat = resultat || Case[x1][y].getMonstreGayPride();
+		}
+
+		x1 = x + 1;
+		if (-1 < x1 && x1 < taille) {
+			resultat = resultat || Case[x1][y].getMonstreGayPride();
+		}
+
+		y1 = y - 1;
+		if (-1 < y1 && y1 < taille) {
+			resultat = resultat || Case[x][y1].getMonstreGayPride();
+		}
+
+		y1 = y + 1;
+		if (-1 < y1 && y1 < taille) {
+			resultat = resultat || Case[x][y1].getMonstreGayPride();
+		}
+		return resultat;
 	}
-	
 
 	/**
 	 * 
 	 * @param agentTartiflette
-	 * @return Vrai si l'agent est sur une case se situe sur une crevasse ou sur un monstre
+	 * @return Vrai si l'agent est sur une case se situe sur une crevasse ou sur un
+	 *         monstre
 	 */
 	public boolean estDangereux(AgentTartiflette agentTartiflette) {
 		return Case[agentTartiflette.getPosX()][agentTartiflette.getPosY()].getMonstreGayPride()

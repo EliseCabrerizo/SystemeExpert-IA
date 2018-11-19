@@ -49,36 +49,28 @@ public class Effecteur {
 		} else if (action[0].equals("Gauche")) {
 			System.out.println(action[0]);
 			agentTartiflette.movePosX(-1);// Deplacement
-			agentTartiflette.getPerformance().add(-1);// Performance -1
 		} else if (action[0].equals("Droite")) {
 			System.out.println(action[0]);
 			agentTartiflette.movePosX(1);// Deplacement
-			agentTartiflette.getPerformance().add(-1);// Performance -1
 		} else if (action[0].equals("Haut")) {
 			System.out.println(action[0]);
 			agentTartiflette.movePosY(-1);// Deplacement
-			agentTartiflette.getPerformance().add(-1);// Performance -1
 		} else if (action[0].equals("Bas")) {
 			System.out.println(action[0]);
 			agentTartiflette.movePosY(1);// Deplacement
-			agentTartiflette.getPerformance().add(-1);// Performance -1
 		} else if (action[0].equals("Tirer")) {
 			System.out.println(action[0] + " " + action[1] + " " + action[2]);
 			agentTartiflette.getPerformance().add(-10); // Performance -10
 			// Tuer le monstre qui est eventuellement dans une case adjacente en (posX,
 			// posX+1), (posX, posX-1), (posX+1, posX), (posX-1, posX)
-			Interface.environnement.disparitionMontre(new Integer(action[1]), new Integer(action[2]));
-			// agentTartiflette.disparitionMonstreDesFaits(new Integer(action[1]), new
-			// Integer(action[2]));
+//			Interface.environnement.disparitionMontre(new Integer(action[1]), new Integer(action[2]));
+			tuerMonstre(new Integer(action[1]),  new Integer(action[2]), Interface.environnement, agentTartiflette);
 		} else if (action[0].equals("Sortir")) {
 			System.out.println(action[0]);
 			// Augementer la performance
 			agentTartiflette.getPerformance().add(10 * (Interface.environnement.getTaille()) ^ 2);
 			// L'agent sortira
 			estSorti = true;
-			// L'agent est repositionne en 0, 0
-			agentTartiflette.setPosX(0);
-			agentTartiflette.setPosY(0);
 		} else
 			System.err.println(
 					"L'action suivante n'est pas egale a 'NUL', 'Gauche', 'Droite', 'Haut', 'Bas', 'Tirer', ou a 'Sortir'.");
@@ -118,8 +110,9 @@ public class Effecteur {
 		return true;
 	}
 
-	public void tuerMonstre(int i, int j, Environnement environnement) {
-		environnement.disparitionMontre(i, j);
+	public void tuerMonstre(int x, int y, Environnement environnement, AgentTartiflette agentTartiflette) {
+		environnement.disparitionMontre(x, y);
+		agentTartiflette.disparitionMonstreDesFaits(x, y);
 	}
 
 	@Override

@@ -132,15 +132,23 @@ public class Case {
 
 		if (vent && !monstreGayPride && !cacaLicorne && !crevasse && !portailMagique) {
 
-			resultat = "Vent"; // Vent
+			resultat = "vent"; // vent
 
 		} else if (!vent && !monstreGayPride && cacaLicorne && !crevasse && !portailMagique) {
 
-			resultat = "Odeur";// Odeur du caca
+			resultat = "caca";// caca
 
 		} else if (!vent && !monstreGayPride && !cacaLicorne && !crevasse && portailMagique) {
 
-			resultat = "Lumiere";// Lumiere du portail magique
+			resultat = "Porte";// Porte magique
+
+		} else if (!vent && monstreGayPride && !cacaLicorne && !crevasse && !portailMagique) {
+
+			resultat = "monstre";// Monstre
+
+		} else if (!vent && !monstreGayPride && !cacaLicorne && crevasse && !portailMagique) {
+
+			resultat = "Crevasse";// Crevasse
 
 		} else if (!vent && !monstreGayPride && !cacaLicorne && !crevasse && !portailMagique) {
 

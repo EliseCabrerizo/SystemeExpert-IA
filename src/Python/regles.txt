@@ -1,0 +1,8 @@
+AND:Porte,:Sortie 
+OR:Bcaca,Bvent:Haut 
+OR:Hcaca,Hvent:Bas 
+AND:Bcaca,BDcaca:Tirer Bas 
+POS:caca;[0-9];[0-9],:Tirer 
+POS:vent;[0-9];[0-9],:N  
+GTO:monstre;[0-9];[0-9],:Tirer 
+GTO:Porte;[0-9];[0-9],:Droite Sortie 

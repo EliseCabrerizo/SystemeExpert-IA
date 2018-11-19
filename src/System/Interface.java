@@ -7,9 +7,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import java.io.File;
-
+import java.io.FileNotFoundException;
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import java.util.logging.Logger;
@@ -150,25 +150,30 @@ public class Interface extends JComponent {
 		int nombreCase = 10;
 		boolean estMort = false;
 		Interface.agentTartiflette = new AgentTartiflette();
-		Effecteur effecteur = new Effecteur();
-		for (int i = 0; i < nombreCase; i++) {
-			effecteur.addAction("Droite");
-		}
-		Interface.agentTartiflette.setEffecteur(effecteur);
 		Interface.environnement = new Environnement(nombreCase);
 
 		ThreadAffichage threadAffichage = new ThreadAffichage();
 		threadAffichage.start();
 
 		while (true) {
-			estMort = Interface.agentTartiflette.Boucle();
-			
+			try {
+				estMort = Interface.agentTartiflette.Boucle();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+
 			// La position de l'agent est reinitialise à (0, 0)
 			Interface.agentTartiflette.setPosX(0);
 			Interface.agentTartiflette.setPosY(0);
-			
+			// Les actions de l'agent sont reinitialisee à (0, 0)
+			Interface.agentTartiflette.getEffecteur().setActions(new ArrayList<String>());
+
+			System.out.println("*******************************************************");
 			if (estMort) {
 				Interface.agentTartiflette.getPerformance().add(-10 * (nombreCase) ^ 2);
+				System.out.println("Mort de l'agent. Sa performanace est diminuee !");
+				System.out.println(Interface.agentTartiflette.toString());
 				estMort = false;
 			}
 			// Cela veut dire qu'il est sorti
@@ -177,7 +182,10 @@ public class Interface extends JComponent {
 				Interface.environnement = new Environnement(nombreCase);
 				// Les faits/croyances sont supprimes
 				Interface.agentTartiflette.suppressionFait();
+				System.out.println("Sortie de l'agent. La performanace est augentee ! Ses croyances sont toutes supprimmees");
+				System.out.println(Interface.agentTartiflette.toString());
 			}
+			System.out.println("*******************************************************");
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {

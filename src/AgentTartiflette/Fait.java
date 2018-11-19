@@ -42,7 +42,20 @@ public class Fait {
 
 	@Override
 	public String toString() {
-		return "Fait [x=" + x + ", y=" + y + ", caracteristique=" + caracteristique + "]";
+		return "Fait [" + x + ", " + y + ", " + caracteristique + "]";
+	}
+
+	public String toStringFile() {
+		return caracteristique + ";" + x + ";" + y;
+	}
+
+	/**
+	 * @param x
+	 * @param y
+	 * @return Vrai si le fait a la position x, y, faux sinon
+	 */
+	public boolean hasSamePosition(int x, int y) {
+		return this.x == x && this.y == y;
 	}
 
 	@Override

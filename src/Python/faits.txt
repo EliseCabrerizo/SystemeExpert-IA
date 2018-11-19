@@ -1,0 +1,13 @@
+Hcaca
+caca;2;2
+vent;3;3
+vent;3;5
+caca;2;4
+Porte;8;5
+monstre;5;4
+Crevasse;3;4
+Crevasse;3;4
+Crevasse;3;4
+Crevasse;3;4
+Crevasse;3;4
+Crevasse;3;4

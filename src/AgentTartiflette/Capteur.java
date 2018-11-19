@@ -9,28 +9,23 @@ public class Capteur {
 	public Capteur() {
 		this.caracteristiqueCase = null;
 	}
-/**
- * Sauvegarde dans l'attribut caracteristiqueCase la caractérisitque de la case x, y
- * @param environnement
- * @param x
- * @param y
- */
+
+	/**
+	 * Sauvegarde dans l'attribut caracteristiqueCase la caractérisitque de la case
+	 * x, y
+	 * 
+	 * @param environnement
+	 * @param x
+	 * @param y
+	 */
 	public void capterCaseTartiflette(Environnement environnement, int x, int y) {
-
 		String caracteristiqueCase = environnement.getCase(x, y).getCaracteristique();
-
-		if (caracteristiqueCase.equals("Odeur") || caracteristiqueCase.equals("Vent")
-
-				|| caracteristiqueCase.equals("Lumiere") || caracteristiqueCase.equals("Vide")) {
-
+		if (caracteristiqueCase.equals("caca") || caracteristiqueCase.equals("vent")
+				|| caracteristiqueCase.equals("Porte") || caracteristiqueCase.equals("Vide")
+			|| caracteristiqueCase.equals("Crevasse") || caracteristiqueCase.equals("monstre")) {
 			this.caracteristiqueCase = caracteristiqueCase;
-
 		} else
-
-			System.err
-
-					.println("La caratéristique de la case n'est pas égale à 'Odeur', 'Vent', 'Lumiere', ou à 'Vide'.");
-
+			System.err.println("La caratéristique de la case n'est pas égale à 'caca', 'vent', 'Porte', 'Crevasse', 'monste', ou à 'Vide'.");
 	}
 
 	@Override
@@ -82,6 +77,7 @@ public class Capteur {
 	public String getCaracteristiqueCase() {
 		return caracteristiqueCase;
 	}
+
 	@Override
 	public String toString() {
 		return "Capteur [caracteristiqueCase=" + caracteristiqueCase + "]";
