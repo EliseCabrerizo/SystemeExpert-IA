@@ -1,0 +1,26 @@
+Action 0 => 
+B
+
+Action 1 => 
+C 2 3
+Action 2 => 
+N 3 4
+Action 3 => 
+Go 4 4
+C  
+
+
+Action 4 => 
+Go 7 3
+D 
+S 
+
+=================   SELECTION D'ACTION   ================= 
+CREVASSE !!
+N 3 4
+nf = Crevasse 3 4
+
+JE VAIS SORTIR
+Go 7 3
+D 
+S 
