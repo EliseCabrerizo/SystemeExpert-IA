@@ -11,11 +11,11 @@ public class Effecteur {
 
 	public void addAction(String action) {
 		if (action.equals("Gauche") || action.equals("Droite") || action.equals("Haut") || action.equals("Bas")
-				|| action.split(" ")[0].equals("Tirer") || action.equals("Sortie"))
+				|| action.split(" ")[0].equals("Tirer") || action.equals("Sortie")||action.equals("NUL"))
 			Actions.add(action);
 		else
 			System.err.println(
-					"L'action n'est pas egale a 'Gauche', 'Droite', 'Haut', 'Bas', 'Tirer abscisse ordonnee', ou a 'Sortie'.");
+					"L'action n'est pas egale a 'NUL','Gauche', 'Droite', 'Haut', 'Bas', 'Tirer abscisse ordonnee', ou a 'Sortie'.");
 	}
 	/**
 	 * 
@@ -43,7 +43,7 @@ public class Effecteur {
 		if(action.length>0)
 		{
 			if (action[0].equals("NUL")) {
-				// Pas d'actions
+				agentTartiflette.genererActionAletoire();
 				System.out.println("Pas d'action");
 			} else if (action[0].equals("Gauche")) {
 				System.out.println(action[0]);

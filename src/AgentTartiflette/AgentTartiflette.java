@@ -129,7 +129,7 @@ public class AgentTartiflette {
 	 *         Probabilite de 1/9 de retourner "Tirer double_aleatoire
 	 *         double_aleatoire"
 	 */
-	private String genererActionAletoire() {
+	public String genererActionAletoire() {
 		System.out.println("Choix d'une action au hasard");
 		String randomAction = "Erreur de la generation de l'action aleatoire";
 		Double n = new Double(1);
@@ -297,8 +297,13 @@ public class AgentTartiflette {
 		fileWritrer.write(dernierDeplacement);
 		for (Fait fait : tabFait) {
 			if (!fait.getCaracteristique().equals("Vide"))// Les cases vides ne sont aps enregistrees dans le fichier
-															// texte
-				fileWritrer.write(fait.toStringFile() + "\n"); // ecrire une ligne dans le fichier resultat.txt
+										// texte
+			{
+				if(fait.getCaracteristique()=="Porte")
+					fileWritrer.write(fait.getCaracteristique()+"\n");
+					else fileWritrer.write(fait.toStringFile() + "\n"); // ecrire une ligne dans le fichier resultat.txt
+			
+			}
 		}
 		fileWritrer.close(); // fermer le fichier a la fin des traitements
 	}

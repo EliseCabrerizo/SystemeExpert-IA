@@ -155,17 +155,10 @@ public class Environnement {
 
 
 	public boolean VerificationCase(int x, int y) {
-
-
-
 		boolean aRetourner = false;
 
-			
-
 		if (x == 0) {
-
 			//On ne fait pas x ==0 et y==0 car on suppose qu'une crevasse ou qu'un monstre ne peut s'initialiser au m�me endroit que l'agent
-
 			if (y == taille - 1) {
 
 
