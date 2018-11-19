@@ -88,5 +88,4 @@ public class Fait {
 			return false;
 		return true;
 	}
-
 }

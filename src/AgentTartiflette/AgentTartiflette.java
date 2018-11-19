@@ -1,12 +1,10 @@
 package AgentTartiflette;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
 import System.Interface;
 
 public class AgentTartiflette {
@@ -36,60 +34,51 @@ public class AgentTartiflette {
 	 * @return Vrai l'agent meurt et Faux si il est sorti
 	 * @throws IOException
 	 */
+
 	public boolean Boucle() throws IOException {
 		boolean estSorti = false;
 		boolean estMort = false;
-
 		// L'agent est sur une case meurtriere
 		estMort = Interface.environnement.estDangereux(this);
 		System.out.println("estMort = " + estMort);
-
 		// Tant qu'il n'est pas mort ou sorti du niveau
 		while (!estMort && !estSorti) {
 			System.out.println("----------------------------------------");
-
 			// L'agent regarde sa case avec son capteur
 			capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
 			System.out.println("Fait = " + capteur.getCaracteristiqueCase());
-
 			// Il ajoute fait de sa case dans sa memoire, s'il n'est pas deja present
 			Fait fait = new Fait(posX, posY, capteur.getCaracteristiqueCase());
 			if (!tabFait.contains(fait))
 				tabFait.add(fait);
 			// puis les reecrire tous dans le fichier texte
 			ecrireFichierTexte("faits.txt", tabFait);
-
 			// Si l'effecteur n'a plus d'actions a effectuer, alors il fait une generation
 			// de fait
 			if (effecteur.getActions().isEmpty()) {
-
 				// Demander regle dans le fichier texte
 				Runtime runtime = Runtime.getRuntime();
-
 				try {
 					// Run du script python
 					runtime.exec("py.exe moteur.py");
 					ArrayList<String> actionsGegenereePython = lireFichierTexte("action.txt");
-
 					// Si il n'y a pas d'action generee, alors generation aleatoire d'une action
 					if (!actionsGegenereePython.isEmpty()) {
-
 						// ajout de la liste d'action generee aux actions deja presentes
 						effecteur.setActions(actionsGegenereePython);
 					} else {
 						String actionAleatoire = genererActionAletoire();
 						effecteur.addAction(actionAleatoire);
 					}
-
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
-
 			// Executer l'action suivante presente dans l'effecteur
-			estSorti = effecteur.ExecuterActionSuivante(this);
+			estSorti=effecteur.ExecuterActionSuivante(this);
+//			if(Interface.environnement.getCase(posX, posY).getPortailMagique())
+//				estSorti=true;
 			System.out.println("estSorti = " + estSorti);
-
 			// L'agent est sur une case meurtriere
 			estMort = Interface.environnement.estDangereux(this);
 			System.out.println("estMort = " + estMort);
@@ -97,10 +86,8 @@ public class AgentTartiflette {
 				capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
 				tabFait.add(new Fait(posX, posY, capteur.getCaracteristiqueCase()));
 			}
-
 			// Affichage de l'agent
 			System.out.println(this.toString());
-
 			// Pause de 2 secondes
 			try {
 				Thread.sleep(2000);
@@ -115,7 +102,7 @@ public class AgentTartiflette {
 		// Cela veut dire que c'est estSorti qui est true
 		else
 			return false;
-	}
+}
 
 	/**
 	 * Genere une action aleatoire
@@ -127,7 +114,6 @@ public class AgentTartiflette {
 	 */
 	private String genererActionAletoire() {
 		System.out.println("Choix d'une action au hasard");
-
 		String randomAction = "Erreur de la generation de l'action aleatoire";
 		Double n = new Double(1);
 		do {
@@ -142,31 +128,35 @@ public class AgentTartiflette {
 		} else if (n < (double) 8 / 9 && inclusCarteVerticale(1)) {
 			randomAction = "Bas";
 		}
-
 		else if (n < (double) 9 / 9) {
-			randomAction = "Tirer";
-			int p;
-			// Probabilite de 0,5 de tirer horizontalement
-			if (Math.random() < 0.5) {
-				do {
-					p = (Math.random() < 0.5 ? 1 : -1);
-				} while (!inclusCarteHorizontale(p));
-				randomAction += " " + new Integer((int) (posX + p)).toString();
-				randomAction += " " + posY;
-			} else {// Probabilite de 0,5 de tirer verticalament
-				do {
-					p = (Math.random() < 0.5 ? 1 : -1);
-				} while (!inclusCarteVerticale(p));
-				randomAction += " " + posX;
-				randomAction += " " + new Integer((int) (posY + p)).toString();
+			boolean trouver=false;
+			for(int i=0;i<tabFait.size()&&!trouver;i++)
+				if(tabFait.get(i).getCaracteristique()=="Monstre")
+					trouver=true;
+			if(trouver)
+			{
+				randomAction = "Tirer";
+				int p;
+				// Probabilite de 0,5 de tirer horizontalement
+				if (Math.random() < 0.5) {
+					do {
+						p = (Math.random() < 0.5 ? 1 : -1);
+					} while (!inclusCarteHorizontale(p));
+					randomAction += " " + new Integer((int) (posX + p)).toString();
+					randomAction += " " + posY;
+				} else {// Probabilite de 0,5 de tirer verticalament
+					do {
+						p = (Math.random() < 0.5 ? 1 : -1);
+					} while (!inclusCarteVerticale(p));
+					randomAction += " " + posX;
+					randomAction += " " + new Integer((int) (posY + p)).toString();
+				}
 			}
 		}
-
 		// Si la generation n'a pas correctement fonctionnee, affichage d'une erreur
 		if (randomAction.equals("Erreur de la generation de l'action aleatoire"))
 			System.err.println(randomAction);
 		return randomAction;
-
 	}
 
 	/**
@@ -211,8 +201,9 @@ public class AgentTartiflette {
 		if (!tabFait.isEmpty()) {
 			while ((i < tabFait.size() && !resultat)) {
 				fait = tabFait.get(i);
-				if (fait.hasSamePosition(x, y))
-					resultat = true;
+				if(fait.getCaracteristique()!="Vide")
+					if (fait.hasSamePosition(x, y))
+						resultat = true;
 				i++;
 			}
 		}
@@ -250,36 +241,35 @@ public class AgentTartiflette {
 	 */
 	private ArrayList<String> normaliserAction(String line) {
 		ArrayList<String> resultat = new ArrayList<String>();
-		
 		String[] lineArray = line.split(" ");
 		System.out.println(line);
-		if (lineArray[0].equals("Go")) {
-			
-			Integer deplacementX = new Integer(lineArray[1]) - posX;
-			if (deplacementX > 0) {
-				for (int i = 0; i < deplacementX; i++) {
-					resultat.add("Droite");
+		if(lineArray.length>0)
+			if (lineArray[0].equals("Go")) {		
+				Integer deplacementX = new Integer(lineArray[1]) - posX;
+				if (deplacementX > 0) {
+					for (int i = 0; i < deplacementX; i++) {
+						resultat.add("Droite");
+					}
+				} else {
+					for (int i = deplacementX; i > 0; i--) {
+						resultat.add("Gauche");
+					}
 				}
-			} else {
-				for (int i = deplacementX; i > 0; i--) {
-					resultat.add("Gauche");
+				
+				Integer deplacementY = new Integer(lineArray[1]) - posY;
+				if (deplacementY > 0) {
+					for (int i = 0; i < deplacementY; i++) {
+						resultat.add("Bas");
+					}
+				} else {
+					for (int i = deplacementY; i > 0; i--) {
+						resultat.add("Haut");
+					}
 				}
-			}
-			
-			Integer deplacementY = new Integer(lineArray[1]) - posY;
-			if (deplacementY > 0) {
-				for (int i = 0; i < deplacementY; i++) {
-					resultat.add("Bas");
-				}
-			} else {
-				for (int i = deplacementY; i > 0; i--) {
-					resultat.add("Haut");
-				}
-			}
-		}else {
+		}
+		else {
 			resultat.add(line);
 		}
-
 		return resultat;
 	}
 
@@ -294,7 +284,6 @@ public class AgentTartiflette {
 				fileWritrer.write(fait.toStringFile() + "\n"); // ecrire une ligne dans le fichier resultat.txt
 		}
 		fileWritrer.close(); // fermer le fichier a la fin des traitements
-
 	}
 
 	/**
@@ -420,5 +409,4 @@ public class AgentTartiflette {
 				+ ", performance=" + performance + ", \neffecteur=" + effecteur + ", \ncapteur=" + capteur
 				+ ", \ntabFait=" + tabFait + "]";
 	}
-
 }
