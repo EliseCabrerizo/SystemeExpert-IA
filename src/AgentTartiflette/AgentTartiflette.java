@@ -38,23 +38,27 @@ public class AgentTartiflette {
 	public boolean Boucle() throws IOException {
 		boolean estSorti = false;
 		boolean estMort = false;
+		
 		// L'agent est sur une case meurtriere
 		estMort = Interface.environnement.estDangereux(this);
 		System.out.println("estMort = " + estMort);
+		System.out.println("----------------------------------------");
+		// L'agent regarde sa case avec son capteur
+		capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
+		System.out.println("Fait = " + capteur.getCaracteristiqueCase());
+		// Il ajoute fait de sa case dans sa memoire, s'il n'est pas deja present
+		Fait fait = new Fait(posX, posY, capteur.getCaracteristiqueCase());
+		if (!tabFait.contains(fait))
+			tabFait.add(fait);
+		// puis les reecrire tous dans le fichier texte
+		ecrireFichierTexte("faits.txt", tabFait);
+		// Si l'effecteur n'a plus d'actions a effectuer, alors il fait une generation
+		// de fait
+		
+
 		// Tant qu'il n'est pas mort ou sorti du niveau
 		while (!estMort && !estSorti) {
-			System.out.println("----------------------------------------");
-			// L'agent regarde sa case avec son capteur
-			capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
-			System.out.println("Fait = " + capteur.getCaracteristiqueCase());
-			// Il ajoute fait de sa case dans sa memoire, s'il n'est pas deja present
-			Fait fait = new Fait(posX, posY, capteur.getCaracteristiqueCase());
-			if (!tabFait.contains(fait))
-				tabFait.add(fait);
-			// puis les reecrire tous dans le fichier texte
-			ecrireFichierTexte("faits.txt", tabFait);
-			// Si l'effecteur n'a plus d'actions a effectuer, alors il fait une generation
-			// de fait
+			
 			if (effecteur.getActions().isEmpty()) {
 				// Demander regle dans le fichier texte
 				Runtime runtime = Runtime.getRuntime();
@@ -86,6 +90,19 @@ public class AgentTartiflette {
 				capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
 				tabFait.add(new Fait(posX, posY, capteur.getCaracteristiqueCase()));
 			}
+			
+			System.out.println("----------------------------------------");
+			// L'agent regarde sa case avec son capteur
+			capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
+			System.out.println("Fait = " + capteur.getCaracteristiqueCase());
+			// Il ajoute fait de sa case dans sa memoire, s'il n'est pas deja present
+			fait = new Fait(posX, posY, capteur.getCaracteristiqueCase());
+			if (!tabFait.contains(fait))
+				tabFait.add(fait);
+			// puis les reecrire tous dans le fichier texte
+			ecrireFichierTexte("faits.txt", tabFait);
+			// Si l'effecteur n'a plus d'actions a effectuer, alors il fait une generation
+			// de fait
 			// Affichage de l'agent
 			System.out.println(this.toString());
 			// Pause de 2 secondes

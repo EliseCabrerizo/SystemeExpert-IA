@@ -3,7 +3,7 @@ import argparse
 from regle import *
 
 
-    
+
 
 def main():
     Rfichier=open("regles.txt","r")
@@ -68,7 +68,7 @@ def main():
     AgentTartiflette.printP()
     print("=================   SELECTION D'ACTION   ================= ")
     AgentTartiflette.choisirAction()
-                
-            
+
+               
 if __name__ == '__main__':
     main()
