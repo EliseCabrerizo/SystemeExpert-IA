@@ -212,7 +212,7 @@ public class Interface extends JComponent {
 	public static void main(String args[]) {
 
 		int nombreCase = 3;
-		boolean estMort = false;
+		boolean estMort = true;
 		Interface.agentTartiflette = new AgentTartiflette();
 		Interface.environnement = new Environnement(nombreCase);
 
@@ -221,10 +221,16 @@ public class Interface extends JComponent {
 		ThreadAffichage threadAffichage = new ThreadAffichage();
 		threadAffichage.start();
 
-
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		while (true) {
 
+			Interface.environnement = new Environnement(nombreCase);
 			try {
 				estMort = Interface.agentTartiflette.Boucle();
 			} catch (IOException e) {
@@ -243,13 +249,11 @@ public class Interface extends JComponent {
 				Interface.agentTartiflette.getPerformance().add(-10 * (nombreCase) ^ 2);
 				System.out.println("Mort de l'agent. Sa performanace est diminuee !");
 				System.out.println(Interface.agentTartiflette.toString());
-				estMort = false;
 			}
 
 			// Cela veut dire qu'il est sorti
 			else {
 				nombreCase++;
-				Interface.environnement = new Environnement(nombreCase);
 				// Les faits/croyances sont supprimes
 				Interface.agentTartiflette.suppressionFait();
 				System.out.println("Sortie de l'agent. La performanace est augentee ! Ses croyances sont toutes supprimmees");
@@ -257,16 +261,6 @@ public class Interface extends JComponent {
 			}
 
 			System.out.println("*******************************************************");
-
-			try {
-
-				Thread.sleep(2000);
-
-			} catch (InterruptedException e) {
-
-				e.printStackTrace();
-
-			}
 
 		}
 

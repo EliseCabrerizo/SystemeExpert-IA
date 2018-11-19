@@ -14,12 +14,13 @@ class Action:
         for m in mvts:
             self.mvt.append(m)
 
+
     def addmvt(self,m):
         self.mvt.append(m)
-		
+    
     def delmvt(self,m):
         self.mvt.remove(m)
-
+    
     def resetmvt(self):
         for m in self.mvt :
             self.delmvt(m)
@@ -27,31 +28,30 @@ class Action:
 
     def getfirst(self):
         return self.mvt[0]
-
+    
     def updatemvt(self,ml):
         self.resetmvt()
         for m in ml :
             self.addmvt(m)
-
     def getAll(self):
         ac=""
         for m in self.mvt:
             ac=ac+m+" \n"
         return ac
-
+    
     def printA(self):
         for m in self.mvt:
             print(m)
-			
-class Regle:
 
+class Regle:
+    
     def __init__(self):
         self.action=Action() # Action pouvant être ajouté au plan si inférence ok
         self.faits_r=list() # liste des faits requis
-
+    
     def initAction(self,A):
         self.action=A
-
+    
     def update_faits_r(self,faits):
         # on supprime tous les anciens faits nécessaires
         for f in self.faits_r:
@@ -59,13 +59,13 @@ class Regle:
         # on ajoute les nouveaux
         for f in faits:
             self.faits_r.append(f)
-			
+    
     def inference(self,faits_c) : # inference de base où tous nos faits requis doivent être vrai (A ET B ET C ...)
         for fr in self.faits_r  :
             if fr not in faits_c: # si un de nos faits requis n'est pas dans les faits connus on renvoie faux
                 return False
         return True
-
+    
     def printRule(self):
         print("*********************************")
         print("Regle AND")
@@ -77,13 +77,13 @@ class Regle:
         print("*********************************")
 
 class RegleOR(Regle):
-
+    
     def inference(self,faits_c):
          for fr in self.faits_r  :
                 if fr in faits_c: # si un de nos faits requis n'est pas dans les faits connus on renvoie faux
                     return True
          return False
-
+    
     def printRule(self):
         print("*********************************")
         print("Regle OR")
@@ -94,16 +94,18 @@ class RegleOR(Regle):
         self.action.printA()
         print("*********************************")
 
-class ReglePOS(Regle):
 
+
+class ReglePOS(Regle):
+    
     def __init__(self):
         self.action=Action() # Action pouvant être ajouté au plan si inférence ok
         self.faits_r=list() # liste des faits requis
         self.X=0
         self.Y=0
+    
 
-   
-   
+
     def inference(self,faits_c):
         ##print("++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         #print("Dans inference Regle POS")
@@ -282,9 +284,9 @@ class RegleGTO(Regle):
                     #print("++++++++++++++++++++++++++++++++++++++++++++++++++++++")
                     return True
 
-
-
-             
+                 
+    
+    
 class Agent:
     
     def __init__(self):
@@ -321,29 +323,29 @@ class Agent:
     def choisirAction(self):
         Ffichier=open("faits.txt","a")
         Afichier=open("action.txt","w")
-        if len(self.A) == 0:
-            print("RAAAAAANDOM !!!")
-            actionRandom = random.randint(1,4)
-            if actionRandom == 1:
-                print("Gauche")
-                Afichier.write("Gauche")
-                Afichier.close()
-                Ffichier.close()
-            if actionRandom == 2:
-                print("Droite")
-                Afichier.write("Droite")
-                Afichier.close()
-                Ffichier.close()
-            if actionRandom == 3:
-                print("Haut")
-                Afichier.write("Haut")
-                Afichier.close()
-                Ffichier.close()
-            if actionRandom == 4:
-                print("Bas")
-                Afichier.write("Bas")
-                Afichier.close()
-                Ffichier.close()
+        # if len(self.A) == 0:
+        #     print("RAAAAAANDOM !!!")
+        #     actionRandom = random.randint(1,4)
+        #     if actionRandom == 1:
+        #         print("Gauche")
+        #         Afichier.write("Gauche")
+        #         Afichier.close()
+        #         Ffichier.close()
+        #     if actionRandom == 2:
+        #         print("Droite")
+        #         Afichier.write("Droite")
+        #         Afichier.close()
+        #         Ffichier.close()
+        #     if actionRandom == 3:
+        #         print("Haut")
+        #         Afichier.write("Haut")
+        #         Afichier.close()
+        #         Ffichier.close()
+        #     if actionRandom == 4:
+        #         print("Bas")
+        #         Afichier.write("Bas")
+        #         Afichier.close()
+        #         Ffichier.close()
         
         for action in self.A: #    ajouter à la base de fait qu'on a trouver une crevasse
             for m in action.mvt:
@@ -380,11 +382,19 @@ class Agent:
                     return True
         # on a rien trouver on fait du random
         print("Yolooooo")
-        actionRandom = random.randint(1,len(self.A))
-        action=self.A[actionRandom]
-        action.printA()
-        return True
-
+        maxi=len(self.A)
+        if maxi > 1 :
+            actionRandom = random.randint(1,maxi)
+            print(str(actionRandom))
+            action=self.A[actionRandom]
+            action.printA()
+            Afichier.close()
+            Ffichier.close()
+            return True
+        else :
+            Afichier.close()
+            Ffichier.close()
+            return False
 
     def printP(self): # affiche toute les actions possibles
         i=0
@@ -392,7 +402,7 @@ class Agent:
             print("Action "+str(i)+" => ")
             a.printA()
             i+=1
-
+    
     def printTRules(self):
         i=0
         for r in self.R:
