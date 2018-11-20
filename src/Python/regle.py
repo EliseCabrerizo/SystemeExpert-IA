@@ -177,58 +177,117 @@ class ReglePOS(Regle):
                 trouver=s[0]+";"+str(self.x+1)+";"+str(self.y+1)
                 # on reparcours tous les faits connu à la recherche d'un truc identique en pos X+1, Y+1
                 for fcd in faits_c:
+                    print("dans x+1,y+1")
                     if fcd == trouver:
-                        # on a trouver le même en (x+1,Y+1) donc il est au mileu
-                        ac=""
-                        ac=ac+self.action.getfirst()
-                        #print("ac = ")
-                        ac=ac+" X+1,Y+1"
-                        self.action.resetmvt()
-                        self.action.addmvt(ac)
-                        #print("++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                        return True
+                        print("trouve")
+                        # on a trouver le même en (x+1,Y+1) donc on doit verifier si on connait des cases vide autour de nous pour déterminer sa potision
+                        videD="vide;"+str(self.x+1)+";"+str(self.y)
+                        videB="vide;"+str(self.x)+";"+str(self.y+1)
+                        print("videD = "+videD)
+                        print("VideB = "+videB)
+                        for case in faits_c:
+                            print("case = "+case)
+                            # si on a une case vide à droite l'effet est en bas
+                            if case == videD :
+                                print("VIDED")
+                                ac=""
+                                ac=ac+self.action.getfirst()
+                                ac=ac+" "+str(self.x)+" "+str(self.y+1)
+                                self.action.resetmvt()
+                                self.action.addmvt(ac)
+                                return True
+                            else :
+                                if case == videB:
+                                    print("VIDEB")
+                                    # la case vide est en bas, l'effet est a droite
+                                    ac=""
+                                    ac=ac+self.action.getfirst()
+                                    ac=ac+" "+str(self.x+1)+" "+str(self.y)
+                                    self.action.resetmvt()
+                                    self.action.addmvt(ac)
+                                    return True
+                                else:
+                                    print("Rien trouve")
+
                 
                 trouver=s[0]+";"+str(self.x+1)+";"+str(self.y-1)
                 # on reparcours tous les faits connu à la recherche d'un truc identique en pos X+1, Y-1
                 for fcd in faits_c:
                     if fcd == trouver:
-                        # on a trouver le même en (x+1,Y-1) donc il est au mileu
-                        ac=""
-                        ac=ac+self.action.getfirst()
-                        #print("ac = ")
-                        ac=ac+" "+str(self.x)+" "+str(self.y+1)
-                        self.action.resetmvt()
-                        self.action.addmvt(ac)
-                        #print("++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                        return True
+                        # on a trouver le même en (x+1,Y+1) donc on doit verifier si on connait des cases vide autour de nous pour déterminer sa potision
+                        videD="vide;"+str(self.x+1)+";"+str(self.y)
+                        videH="vide;"+str(self.x)+";"+str(self.y+1)
+                        for case in faits_c:
+                            # si on a une case vide à droite l'effet est en haut
+                            if case == videD :
+                                ac=""
+                                ac=ac+self.action.getfirst()
+                                ac=ac+" "+str(self.x)+" "+str(self.y-1)
+                                self.action.resetmvt()
+                                self.action.addmvt(ac)
+                                return True
+                            else :
+                                if case == videH:
+                                    # la case vide est en haut, l'effet est a droite
+                                    ac=""
+                                    ac=ac+self.action.getfirst()
+                                    ac=ac+" "+str(self.x+1)+" "+str(self.y)
+                                    self.action.resetmvt()
+                                    self.action.addmvt(ac)
+                                    return True
                 
                 trouver=s[0]+";"+str(self.x-1)+";"+str(self.y+1)
                 # on reparcours tous les faits connu à la recherche d'un truc identique en pos X+1, Y+1
                 for fcd in faits_c:
                     if fcd == trouver:
-                        # on a trouver le même en (x-1,Y+1) donc il est au mileu
-                        ac=""
-                        ac=ac+self.action.getfirst()
-                        #print("ac = ")
-                        ac=ac+" "+str(self.x)+" "+str(self.y+1)
-                        self.action.resetmvt()
-                        self.action.addmvt(ac)
-                        #print("++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                        return True
+                        # on a trouver le même en (x+1,Y+1) donc on doit verifier si on connait des cases vide autour de nous pour déterminer sa potision
+                        videG="vide;"+str(self.x-1)+";"+str(self.y)
+                        videB="vide;"+str(self.x)+";"+str(self.y+1)
+                        for case in faits_c:
+                            # si on a une case vide à droite l'effet est en bas
+                            if case == videG :
+                                ac=""
+                                ac=ac+self.action.getfirst()
+                                ac=ac+" "+str(self.x)+" "+str(self.y+1)
+                                self.action.resetmvt()
+                                self.action.addmvt(ac)
+                                return True
+                            else :
+                                if case == videB:
+                                    # la case vide est en bas, l'effet est a droite
+                                    ac=""
+                                    ac=ac+self.action.getfirst()
+                                    ac=ac+" "+str(self.x-1)+" "+str(self.y)
+                                    self.action.resetmvt()
+                                    self.action.addmvt(ac)
+                                    return True
                 
                 trouver=s[0]+";"+str(self.x-1)+";"+str(self.y-1)
-                # on reparcours tous les faits connu à la recherche d'un truc identique en pos X+1, Y-1
+                # on reparcours tous les faits connu à la recherche d'un truc identique en pos X-1, Y-1
                 for fcd in faits_c:
                     if fcd == trouver:
-                        # on a trouver le même en (x-1,Y-1) donc il est au mileu
-                        ac=""
-                        ac=ac+self.action.getfirst()
-                        #print("ac = ")
-                        ac=ac+" "+str(self.x)+" "+str(self.y-1)
-                        self.action.resetmvt()
-                        self.action.addmvt(ac)
-                        #print("++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                        return True
+                        # on a trouver le même en (x+1,Y+1) donc on doit verifier si on connait des cases vide autour de nous pour déterminer sa potision
+                        videG="vide;"+str(self.x-1)+";"+str(self.y)
+                        videH="vide;"+str(self.x)+";"+str(self.y-1)
+                        for case in faits_c:
+                            # si on a une case vide à gauche l'effet est en haut
+                            if case == videG :
+                                ac=""
+                                ac=ac+self.action.getfirst()
+                                ac=ac+" "+str(self.x)+" "+str(self.y-1)
+                                self.action.resetmvt()
+                                self.action.addmvt(ac)
+                                return True
+                            else :
+                                if case == videH:
+                                    # la case vide est en haut, l'effet est a gauche
+                                    ac=""
+                                    ac=ac+self.action.getfirst()
+                                    ac=ac+" "+str(self.x-1)+" "+str(self.y)
+                                    self.action.resetmvt()
+                                    self.action.addmvt(ac)
+                                    return True
+
         ##print("++++++++++++++++++++++++++++++++++++++++++++++++++++++")
         return False        
     
@@ -323,30 +382,10 @@ class Agent:
     def choisirAction(self):
         Ffichier=open("faits.txt","a")
         Afichier=open("action.txt","w")
-        # if len(self.A) == 0:
-        #     print("RAAAAAANDOM !!!")
-        #     actionRandom = random.randint(1,4)
-        #     if actionRandom == 1:
-        #         print("Gauche")
-        #         Afichier.write("Gauche")
-        #         Afichier.close()
-        #         Ffichier.close()
-        #     if actionRandom == 2:
-        #         print("Droite")
-        #         Afichier.write("Droite")
-        #         Afichier.close()
-        #         Ffichier.close()
-        #     if actionRandom == 3:
-        #         print("Haut")
-        #         Afichier.write("Haut")
-        #         Afichier.close()
-        #         Ffichier.close()
-        #     if actionRandom == 4:
-        #         print("Bas")
-        #         Afichier.write("Bas")
-        #         Afichier.close()
-        #         Ffichier.close()
-        
+        print("=============================================")
+        print("liste des actions = ")
+        self.printP()
+        print("=============================================")
         for action in self.A: #    ajouter à la base de fait qu'on a trouver une crevasse
             for m in action.mvt:
                     if "N" in m :
@@ -356,6 +395,7 @@ class Agent:
                         nf="Crevasse;"+s[1]+";"+s[2]+"\n"
                         print("nf = "+nf)
                         Ffichier.write(nf)
+                        #self.A.remove(action)
 
         for action in self.A:
              for m in action.mvt:
@@ -383,8 +423,9 @@ class Agent:
         # on a rien trouver on fait du random
         print("Yolooooo")
         maxi=len(self.A)
-        if maxi > 1 :
-            actionRandom = random.randint(1,maxi)
+        print("maxi = "+str(maxi))
+        if maxi > 0 :
+            actionRandom = random.randint(0,maxi)
             print(str(actionRandom))
             action=self.A[actionRandom]
             action.printA()
@@ -392,8 +433,12 @@ class Agent:
             Ffichier.close()
             return True
         else :
-            Afichier.close()
-            Ffichier.close()
+            if maxi > 0 :
+                action=self.A[0]
+                action.printA()
+                Afichier.close()
+                Ffichier.close()
+                return True
             return False
 
     def printP(self): # affiche toute les actions possibles

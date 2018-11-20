@@ -37,6 +37,13 @@ public class AgentTartiflette {
 	 */
 
 	public boolean Boucle() throws IOException {
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		boolean estSorti = false;
 		boolean estMort = false;
 
@@ -45,7 +52,7 @@ public class AgentTartiflette {
 		System.out.println("estMort = " + estMort);
 		System.out.println("----------------------------------------");
 		// L'agent regarde sa case avec son capteur
-		capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
+		capteur.capterCaseTartiflette(posX, posY);
 		System.out.println("Fait = " + capteur.getCaracteristiqueCase());
 		// Il ajoute fait de sa case dans sa memoire, s'il n'est pas deja present
 		Fait fait = new Fait(posX, posY, capteur.getCaracteristiqueCase());
@@ -87,13 +94,13 @@ public class AgentTartiflette {
 			estMort = Interface.environnement.estDangereux(this);
 			System.out.println("estMort = " + estMort);
 			if (estMort) {
-				capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
+				capteur.capterCaseTartiflette(posX, posY);
 				tabFait.add(new Fait(posX, posY, capteur.getCaracteristiqueCase()));
 			}
 
 			System.out.println("----------------------------------------");
 			// L'agent regarde sa case avec son capteur
-			capteur.capterCaseTartiflette(Interface.environnement, posX, posY);
+			capteur.capterCaseTartiflette(posX, posY);
 			System.out.println("Fait = " + capteur.getCaracteristiqueCase());
 			// Il ajoute fait de sa case dans sa memoire, s'il n'est pas deja present
 			fait = new Fait(posX, posY, capteur.getCaracteristiqueCase());
@@ -146,7 +153,7 @@ public class AgentTartiflette {
 					randomAction = aExplorer.get(0);
 				else
 					randomAction = aExplorer.get(1);
-			} else if(aExplorer.size()==3){
+			} else if (aExplorer.size() == 3) {
 				if (n < 0.33)
 					randomAction = aExplorer.get(0);
 				else if (n < 0.66)
@@ -156,13 +163,13 @@ public class AgentTartiflette {
 			}
 
 		} else {
-			if (n < (double) 2 / 9 && inclusCarteHorizontale(-1)) {
+			if (n < (double) 2 / 9 && inclusCarteHorizontale(-1)&&!estDangereuxViaFaits(posX-1,posY)) {
 				randomAction = "Gauche";
-			} else if (n < (double) 4 / 9 && inclusCarteHorizontale(1)) {
+			} else if (n < (double) 4 / 9 && inclusCarteHorizontale(1)&&!estDangereuxViaFaits(posX+1,posY-1)) {
 				randomAction = "Droite";
-			} else if (n < (double) 6 / 9 && inclusCarteVerticale(-1)) {
+			} else if (n < (double) 6 / 9 && inclusCarteVerticale(-1)&&!estDangereuxViaFaits(posX,posY-1)) {
 				randomAction = "Haut";
-			} else if (n < (double) 8 / 9 && inclusCarteVerticale(1)) {
+			} else if (n < (double) 8 / 9 && inclusCarteVerticale(1)&&!estDangereuxViaFaits(posX,posY+1)) {
 				randomAction = "Bas";
 			} else if (n < (double) 9 / 9) {
 				boolean trouver = false;
@@ -187,7 +194,11 @@ public class AgentTartiflette {
 						randomAction += " " + new Integer((int) (posY + p)).toString();
 					}
 				}
-			}
+				else
+					randomAction = "NUL";
+			} 
+			else
+				randomAction = "NUL";
 		}
 		// Si la generation n'a pas correctement fonctionnee, affichage d'une erreur
 		if (randomAction.equals("Erreur de la generation de l'action aleatoire"))
@@ -262,18 +273,14 @@ public class AgentTartiflette {
 		FileWriter fileWritrer = new FileWriter(file);
 		fileWritrer.write(dernierDeplacement);
 		for (Fait fait : tabFait) {
-			if (!fait.getCaracteristique().equals("Vide"))// Les cases vides ne sont aps enregistrees dans le fichier
-			// texte
-			{
 				if (fait.getCaracteristique() == "Porte")
 					fileWritrer.write(fait.getCaracteristique() + "\n");
 				else
 					fileWritrer.write(fait.toStringFile() + "\n"); // ecrire une ligne dans le fichier resultat.txt
-
 			}
-		}
 		fileWritrer.close(); // fermer le fichier a la fin des traitements
-	}
+		}
+		
 
 	/**
 	 * 
@@ -291,7 +298,7 @@ public class AgentTartiflette {
 	 * @param n
 	 */
 	public void movePosX(int n) {
-		if (inclusCarteHorizontale(n)) {
+		if (inclusCarteHorizontale(n) && !estDangereuxViaFaits(posX + n, posY)) {
 			this.posX += n;
 			performance.add(-1);// Performance -1
 			String s = capteur.getCaracteristiqueCase();
@@ -311,7 +318,7 @@ public class AgentTartiflette {
 	 * @param n
 	 */
 	public void movePosY(int n) {
-		if (inclusCarteVerticale(n)) {
+		if (inclusCarteVerticale(n) & !estDangereuxViaFaits(posX, posY + n)) {
 			this.posY += n;
 			performance.add(-1);// Performance -1
 			String s = capteur.getCaracteristiqueCase();
@@ -321,6 +328,7 @@ public class AgentTartiflette {
 				dernierDeplacement = n < 0 ? "H" : "B";
 				dernierDeplacement += s + "\n";
 			}
+
 		} else
 			System.err.println("L'agent a tente de sortir de la carte sur l'axe des ordonnes !");
 	}
@@ -401,19 +409,18 @@ public class AgentTartiflette {
 
 	public boolean CaseNonExploree(int posX, int posY) {
 		boolean aRetourner = true;
-		int compt=0;
-		int comptMax=3;
-		
-		if(posX+1>Interface.environnement.getTaille())
+		int compt = 0;
+		int comptMax = 3;
+
+		if (posX + 1 > Interface.environnement.getTaille())
 			comptMax--;
-		if(posX-1<0)
+		if (posX - 1 < 0)
 			comptMax--;
-		if(posY-1<0)
+		if (posY - 1 < 0)
 			comptMax--;
-		if(posY+1>Interface.environnement.getTaille())
+		if (posY + 1 > Interface.environnement.getTaille())
 			comptMax--;
-		
-		
+
 		if (!tabFait.isEmpty()) {
 			for (int i = 0; i < tabFait.size(); i++) {
 				if (tabFait.get(i).getX() == posX + 1 || tabFait.get(i).getX() == posX - 1
@@ -421,8 +428,8 @@ public class AgentTartiflette {
 					compt++;
 			}
 		}
-		if(compt>comptMax)
-			aRetourner=false;
+		if (compt > comptMax)
+			aRetourner = false;
 		return aRetourner;
 	}
 
@@ -432,32 +439,40 @@ public class AgentTartiflette {
 		aRetourner.add("Haut");
 		aRetourner.add("Gauche");
 		aRetourner.add("Droite");
-		
-		if(posX+1>Interface.environnement.getTaille()-1)
+
+		if (posX + 1 > Interface.environnement.getTaille() - 1)
 			aRetourner.remove(aRetourner.indexOf("Droite"));
-		if(posX-1<0)
+		if (posX - 1 < 0)
 			aRetourner.remove(aRetourner.indexOf("Gauche"));
-		if(posY-1<0)
+		if (posY - 1 < 0)
 			aRetourner.remove(aRetourner.indexOf("Haut"));
-		if(posY+1>Interface.environnement.getTaille()-1)
+		if (posY + 1 > Interface.environnement.getTaille() - 1)
 			aRetourner.remove(aRetourner.indexOf("Bas"));
-		
-		for(int i=0;i<tabFait.size();i++)
-		{
-			if (tabFait.get(i).getX() == posX + 1&&tabFait.get(i).getY() == posY)
-				if(aRetourner.contains("Droite"))
+
+		for (int i = 0; i < tabFait.size(); i++) {
+			if (tabFait.get(i).getX() == posX + 1 && tabFait.get(i).getY() == posY)
+				if (aRetourner.contains("Droite"))
 					aRetourner.remove(aRetourner.indexOf("Droite"));
-			if(tabFait.get(i).getX() == posX - 1&&tabFait.get(i).getY() == posY)
-				if(aRetourner.contains("Gauche")&&tabFait.get(i).getX() == posX)
+			if (tabFait.get(i).getX() == posX - 1 && tabFait.get(i).getY() == posY)
+				if (aRetourner.contains("Gauche"))
 					aRetourner.remove(aRetourner.indexOf("Gauche"));
-			if(tabFait.get(i).getY() == posY - 1)
-				if(aRetourner.contains("Haut")&&tabFait.get(i).getX() == posX)
-				aRetourner.remove(aRetourner.indexOf("Haut"));		
-			if(tabFait.get(i).getY() == posY + 1)
-				if(aRetourner.contains("Bas"))
+			if (tabFait.get(i).getY() == posY - 1)
+				if (aRetourner.contains("Haut") && tabFait.get(i).getX() == posX)
+					aRetourner.remove(aRetourner.indexOf("Haut"));
+			if (tabFait.get(i).getY() == posY + 1)
+				if (aRetourner.contains("Bas"))
 					aRetourner.remove(aRetourner.indexOf("Bas"));
 		}
-		
+
+		return aRetourner;
+	}
+
+	public boolean estDangereuxViaFaits(int X, int Y) {
+		boolean aRetourner = false;
+		for (int i = 0; i < tabFait.size() && !aRetourner; i++)
+			if (tabFait.get(i).getCaracteristique() == "monstre" && tabFait.get(i).getCaracteristique() == "crevasse")
+				if (tabFait.get(i).getX() == Y && tabFait.get(i).getY() == X)
+					aRetourner = true;
 		return aRetourner;
 	}
 }

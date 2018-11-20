@@ -1,6 +1,4 @@
 package Environnement;
-import java.util.ArrayList;
-
 import AgentTartiflette.AgentTartiflette;
 
 public class Environnement {
