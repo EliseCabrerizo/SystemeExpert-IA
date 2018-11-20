@@ -471,7 +471,7 @@ public class AgentTartiflette {
 		boolean aRetourner = false;
 		for (int i = 0; i < tabFait.size() && !aRetourner; i++)
 			if (tabFait.get(i).getCaracteristique() == "monstre" && tabFait.get(i).getCaracteristique() == "crevasse")
-				if (tabFait.get(i).getX() == Y && tabFait.get(i).getY() == X)
+				if (tabFait.get(i).getX() == X && tabFait.get(i).getY() == Y)
 					aRetourner = true;
 		return aRetourner;
 	}
