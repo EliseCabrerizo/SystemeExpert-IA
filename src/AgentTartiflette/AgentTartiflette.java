@@ -163,13 +163,13 @@ public class AgentTartiflette {
 			}
 
 		} else {
-			if (n < (double) 2 / 9 && inclusCarteHorizontale(-1)&&!estDangereuxViaFaits(posX-1,posY)) {
+			if (n < (double) 2 / 9 && inclusCarteHorizontale(-1)&&!estDangereuxViaFaits(posX-1,posY)&&!dernierDeplacement.equals("D")) {
 				randomAction = "Gauche";
-			} else if (n < (double) 4 / 9 && inclusCarteHorizontale(1)&&!estDangereuxViaFaits(posX+1,posY-1)) {
+			} else if (n < (double) 4 / 9 && inclusCarteHorizontale(1)&&!estDangereuxViaFaits(posX+1,posY-1)&&!dernierDeplacement.equals("G")) {
 				randomAction = "Droite";
-			} else if (n < (double) 6 / 9 && inclusCarteVerticale(-1)&&!estDangereuxViaFaits(posX,posY-1)) {
+			} else if (n < (double) 6 / 9 && inclusCarteVerticale(-1)&&!estDangereuxViaFaits(posX,posY-1)&&!dernierDeplacement.equals("B")) {
 				randomAction = "Haut";
-			} else if (n < (double) 8 / 9 && inclusCarteVerticale(1)&&!estDangereuxViaFaits(posX,posY+1)) {
+			} else if (n < (double) 8 / 9 && inclusCarteVerticale(1)&&!estDangereuxViaFaits(posX,posY+1)&&!dernierDeplacement.equals("H")) {
 				randomAction = "Bas";
 			} else if (n < (double) 9 / 9) {
 				boolean trouver = false;

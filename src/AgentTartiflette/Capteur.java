@@ -1,5 +1,4 @@
 package AgentTartiflette;
-import Environnement.Environnement;
 import System.Interface;
 
 public class Capteur {
