@@ -42,9 +42,9 @@ public class Effecteur {
 		String[] action = actionSuivante().split(" ");
 		if(action.length>0)
 		{
-			if (action[0].equals("NUL")) {
+			if (action[0].equals("NUL")||action[0].equals("")) {
 				agentTartiflette.genererActionAletoire();
-				System.out.println("Pas d'action");
+				System.out.println("Pas d'action Python");
 			} else if (action[0].equals("Gauche")) {
 				System.out.println(action[0]);
 				agentTartiflette.movePosX(-1);// Deplacement
